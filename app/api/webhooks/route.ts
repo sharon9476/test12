@@ -49,8 +49,14 @@ export async function POST(req: Request) {
   }
  
   // Get the ID and type
+
+  // interface Props<WebhookEvent> {
+  //   first_name: string,
+  //   email_addresses: string,
+  //   last_name: string
+  // }
   
-  const { id, first_name, email_addresses, last_name } = evt.data;
+  const { id } = evt.data
   const eventType = evt.type;
  
   console.log(`Webhook with and ID of ${id} and type of ${eventType}`)
@@ -60,9 +66,9 @@ export async function POST(req: Request) {
   if (evt.type === "user.created") {
     await prisma.device.create({
       data: {
-        first_name: first_name,
-        last_name: last_name,
-        email_addresses: email_addresses[0].email_address
+        first_name: evt.data.first_name,
+        last_name: evt.data.last_name,
+        email_addresses: evt.data.email_addresses[0].email_address
       }
     })
   }
