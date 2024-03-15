@@ -63,12 +63,13 @@ export async function POST(req: Request) {
   console.log('Webhook body:', body)
 
 
-  if (evt.type === "user.created") {
+  if (eventType === "user.created") {
+    const { id, first_name, last_name, email_addresses } = evt.data
     await prisma.device.create({
       data: {
-        first_name: evt.data.first_name,
-        last_name: evt.data.last_name,
-        email_addresses: evt.data.email_addresses[0].email_address
+        first_name: first_name,
+        last_name: last_name,
+        email_addresses: email_addresses[0].email_address
       }
     })
   }
